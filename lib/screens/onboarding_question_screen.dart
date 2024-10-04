@@ -68,11 +68,11 @@ class OnboardingQuestionScreen extends StatelessWidget {
   Widget _buildAnswerField(BuildContext context) {
     return Expanded(
       child: TextField(
-        style: TextStyle(color: AppColors.white),
+        style: const TextStyle(color: AppColors.white),
         maxLines: null,
         expands: true,
         textAlignVertical: TextAlignVertical.top,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           hintText: 'Describe your perfect hotspot',
         ),
         onChanged: (value) {
@@ -141,7 +141,10 @@ class OnboardingQuestionScreen extends StatelessWidget {
         ),
         Expanded(
           child: NextButton(
-            onTap: () {},
+            onTap: () {
+              const snackBar = SnackBar(content: Text('Task is done!'), duration: Duration(seconds: 2));
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            },
           ),
         ), // Next button to move forward
       ],
