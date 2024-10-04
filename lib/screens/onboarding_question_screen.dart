@@ -109,6 +109,41 @@ class OnboardingQuestionScreen extends StatelessWidget {
     );
   }
 
+  void _showHostWithUsDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        String hostReason = ''; // to store user input
+
+        return AlertDialog(
+          backgroundColor: Colors.black,
+          title: Text(
+            'Why do you want to host with us?',
+            style: boldTextStyle(),
+          ),
+          content: const TextField(
+            style: TextStyle(color: AppColors.white),
+            maxLines: 4,
+            minLines: 4,
+            textAlignVertical: TextAlignVertical.top,
+            decoration: InputDecoration(
+              hintText: 'Enter your reason',
+            ),
+          ),
+          actions: [
+            NextButton(
+              onTap: () {
+                const snackBar = SnackBar(content: Text('Task is done!'), duration: Duration(seconds: 2));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget _buildBottomButtons(BuildContext context, bool isRecording) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -133,7 +168,8 @@ class OnboardingQuestionScreen extends StatelessWidget {
               IconButton(
                 icon: const Icon(Icons.stop), // Stop icon for stopping recording
                 onPressed: () {
-                  context.read<OnboardingQuestionBloc>().add(StopRecordingEvent()); // Stop recording
+                  context.read<OnboardingQuestionBloc>().add(StopRecordingEvent());
+                  _showHostWithUsDialog(context);
                 },
               ),
             ],
@@ -142,8 +178,7 @@ class OnboardingQuestionScreen extends StatelessWidget {
         Expanded(
           child: NextButton(
             onTap: () {
-              const snackBar = SnackBar(content: Text('Task is done!'), duration: Duration(seconds: 2));
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              _showHostWithUsDialog(context);
             },
           ),
         ), // Next button to move forward
